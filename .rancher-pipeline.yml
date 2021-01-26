@@ -1,0 +1,21 @@
+stages:
+- name: build
+  steps:
+  - runScriptConfig:
+      image: wangzhenalex/maven-aliyun
+      shellScript: |-
+        cd ./register-center
+        mvn clean package
+- name: publish
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./register-center/eureka-serverk/src/main/docker/Dockerfile
+      buildContext: .
+      tag: binguanghui/eureka-server
+      registry: index.docker.io
+- name: deploy
+  steps:
+  - applyYamlConfig:
+      path: ./register-center/eureka-serverk/eureka.yaml
+timeout: 60
+notification: {}
