@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-eureka
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deploy-eureka
+      release: canary
+  template:
+    metadata:
+      labels:
+        app: deploy-eureka
+        release: canary
+    spec:
+      containers:
+        - name: deploy-eureka
+          image: binguanghui/eureka-server:latest
+          env:
+           - name: eureka.client.service-url.defaultZone
+             value: >-
+               http://cloud-eureka-0.cloud-eureka.ocp.svc.cluster.local:1111/eureka,http://cloud-eureka-1.cloud-eureka.ocp.svc.cluster.local:1111/eureka,http://cloud-eureka-2.cloud-eureka.ocp.svc.cluster.local:1111/eureka
+           - name: eureka.instance.prefer-ip-address
+             value: false
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 1111
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-eureka
+  namespace: default
+spec:
+  selector:
+    app: deploy-eureka
+    release: canary
+  clusterIP: 10.43.238.38
+  type: NodePort
+  ports:
+    - port: 1111
+      targetPort: 1111
+      nodePort: 31183
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-eureka
+  namespace: default
+spec:
+  rules:
+    - host: eureka.along.com
+      http:
+        paths:
+          - path:
+            backend:
+              serviceName: svc-eureka
+              servicePort: 80
