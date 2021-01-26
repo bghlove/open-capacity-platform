@@ -4,15 +4,8 @@ stages:
   - runScriptConfig:
       image: wangzhenalex/maven-aliyun
       shellScript: |-
-        cd ./register-center
-        mvn clean package
-- name: publish
-  steps:
-  - publishImageConfig:
-      dockerfilePath: ./register-center/eureka-serverk/src/main/docker/Dockerfile
-      buildContext: .
-      tag: binguanghui/eureka-server
-      registry: index.docker.io
+        cd ./register-center/eureka-server
+        mvn docker:build
 - name: deploy
   steps:
   - applyYamlConfig:
