@@ -20,9 +20,9 @@ spec:
           image: binguanghui/eureka-server:latest
           env:
            - name: eureka.client.service-url.defaultZone
-             value: http://cloud-eureka-0.cloud-eureka.ocp.svc.cluster.local:1111/eureka,http://cloud-eureka-1.cloud-eureka.ocp.svc.cluster.local:1111/eureka,http://cloud-eureka-2.cloud-eureka.ocp.svc.cluster.local:1111/eureka
+             value: 'http://cloud-eureka-0.cloud-eureka.ocp.svc.cluster.local:1111/eureka,http://cloud-eureka-1.cloud-eureka.ocp.svc.cluster.local:1111/eureka,http://cloud-eureka-2.cloud-eureka.ocp.svc.cluster.local:1111/eureka'
            - name: eureka.instance.prefer-ip-address
-             value: false
+             value: 'false'
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
