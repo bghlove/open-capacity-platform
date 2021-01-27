@@ -1,0 +1,17 @@
+node('haimaxy-jnlp'){
+    stage('Build') {
+        echo "1.Build Docker Image Stage"
+        sh "mvn docker:build"
+    }
+    stage('Push') {
+        echo "2.Push Docker Image Stage"
+        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+            sh "docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
+            sh "docker push binguanghui/eureka-server"
+        }
+    }
+    stage('Deploy') {
+        echo "3. Deploy Stage"
+        sh "kubectl apply -f eureka.yaml --record"
+    }
+}
