@@ -1,0 +1,14 @@
+stages:
+- name: build
+  steps:
+  - runScriptConfig:
+      image: wangzhenalex/maven-aliyun
+      shellScript: |-
+        cd ./register-center/eureka-server
+        mvn docker:build
+- name: deploy
+  steps:
+  - applyYamlConfig:
+      path: ./register-center/eureka-serverk/eureka.yaml
+timeout: 60
+notification: {}
