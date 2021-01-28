@@ -2,6 +2,7 @@ node('haimaxy-jnlp'){
     stage('git pull'){
             steps {
                 sh 'pwd'
+                echo sh 'pwd'
                 git credentialsId: 'github', url: 'https://github.com/bghlove/open-capacity-platform.git'
             }
         }
