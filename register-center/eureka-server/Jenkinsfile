@@ -1,5 +1,12 @@
 node('haimaxy-jnlp'){
+    stage('git pull'){
+            steps {
+                sh 'pwd'
+                git credentialsId: 'github', url: 'https://github.com/bghlove/open-capacity-platform.git'
+            }
+        }
     stage('Build') {
+        sh 'pwd'
         echo "1.Build Docker Image Stage"
         echo "sleep"
         sh "sleep 30m"
