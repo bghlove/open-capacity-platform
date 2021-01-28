@@ -1,21 +1,16 @@
 node('haimaxy-jnlp'){
-    stage("check out"){
-            dir("projdir"){
-                git  credentialsId: 'github', url: 'https://github.com/bghlove/open-capacity-platform.git'
-            }
-
-        }
+    stage("Check Out"){
+        echo "1.Check Out Sources"
+        git  credentialsId: 'github', url: 'https://hub.fastgit.org/bghlove/open-capacity-platform.git'
+    }
 
     stage('Build') {
-        sh 'pwd'
-        echo "1.Build Docker Image Stage"
-        echo "sleep"
-        sh "sleep 30m"
-        sh "cd /root/open-capacity-platform/register-center/eureka-server"
+        echo "2.Build Docker Image Stage"
+        sh "cd /home/jenkins/agent/workspace/eureka/register-center/eureka-server"
         sh "/opt/maven/bin/mvn docker:build"
     }
     stage('Push') {
-        echo "2.Push Docker Image Stage"
+        echo "3.Push Docker Image Stage"
         withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
             sh "docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
             sh "docker push binguanghui/eureka-server"
