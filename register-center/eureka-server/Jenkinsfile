@@ -1,6 +1,8 @@
 node('haimaxy-jnlp'){
     stage('Build') {
         echo "1.Build Docker Image Stage"
+        echo "sleep"
+        sh "sleep 3m"
         sh "cd /root/open-capacity-platform/register-center/eureka-server"
         sh "/opt/maven/bin/mvn docker:build"
     }
