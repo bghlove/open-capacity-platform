@@ -1,7 +1,8 @@
 node('haimaxy-jnlp'){
     stage('Build') {
         echo "1.Build Docker Image Stage"
-        sh "/opt/maven/bin/mvn docker:build /home/jenkins/agent/workspace/eureka"
+        sh "ls /home/jenkins/agent/workspace/eureka"
+        sh "/opt/maven/bin/mvn docker:build"
     }
     stage('Push') {
         echo "2.Push Docker Image Stage"
