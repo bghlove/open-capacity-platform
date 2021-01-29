@@ -9,7 +9,7 @@ node('haimaxy-jnlp'){
     stage('Build') {
         echo "2.Build Docker Image Stage"
         sh "cd $HOME_DIR"
-        sh "/opt/maven/bin/mvn clean package -DskipTests -f ${OME_DIR}/pom.xml"
+        sh "/opt/maven/bin/mvn clean package -DskipTests -f ${HOME_DIR}/pom.xml"
         sh "docker build -t binguanghui/eureka-server ${HOME_DIR}"
     }
     stage('Push') {
