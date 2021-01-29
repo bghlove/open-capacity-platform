@@ -43,19 +43,3 @@ spec:
     - port: 1111
       targetPort: 1111
       nodePort: 31183
-
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: ingress-eureka
-  namespace: default
-spec:
-  rules:
-    - host: eureka.along.com
-      http:
-        paths:
-          - path:
-            backend:
-              serviceName: svc-eureka
-              servicePort: 80
