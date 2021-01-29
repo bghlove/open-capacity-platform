@@ -15,8 +15,8 @@ node('haimaxy-jnlp'){
     }
     stage('Push') {
         echo "3.Push Docker Image Stage"
-        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-            sh "docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
+        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'aliyuncsPassword', usernameVariable: 'aliyuncsUser')]) {
+            sh "docker login --username=${aliyuncsUser} --password=${aliyuncsPassword} registry.cn-hangzhou.aliyuncs.com"
             sh "docker push ${IMAGE_NAME}"
         }
     }
