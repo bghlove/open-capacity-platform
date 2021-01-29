@@ -1,4 +1,8 @@
 node('haimaxy-jnlp'){
+    environment{
+        HOME_DIR="/home/jenkins/agent/workspace/eureka/register-center/eureka-server"
+    }
+
     stage("Check Out"){
         echo "1.Check Out Sources"
         git  credentialsId: 'github', url: 'https://hub.fastgit.org/bghlove/open-capacity-platform.git'
@@ -6,9 +10,9 @@ node('haimaxy-jnlp'){
 
     stage('Build') {
         echo "2.Build Docker Image Stage"
-        sh "cd /home/jenkins/agent/workspace/eureka/register-center/eureka-server"
-        sh "/opt/maven/bin/mvn clean package -DskipTests -f /home/jenkins/agent/workspace/eureka/register-center/eureka-server/pom.xml"
-        sh "docker build -t binguanghui/eureka-server /home/jenkins/agent/workspace/eureka/register-center/eureka-server/"
+        sh "cd $HOME_DIR"
+        sh "/opt/maven/bin/mvn clean package -DskipTests -f $HOME_DIR/pom.xml"
+        sh "docker build -t binguanghui/eureka-server $HOME_DIR"
     }
     stage('Push') {
         echo "3.Push Docker Image Stage"
@@ -19,6 +23,6 @@ node('haimaxy-jnlp'){
     }
     stage('Deploy') {
         echo "3. Deploy Stage"
-        sh "kubectl apply -f eureka.yaml --record"
+        sh "kubectl apply -f $HOME_DIR/eureka.yaml --record"
     }
 }
